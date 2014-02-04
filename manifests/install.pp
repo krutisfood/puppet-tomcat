@@ -7,7 +7,7 @@ class tomcat::install (
   wget::fetch {
     $tomcat::params::filename:
       source      => $url,
-      destination => $tomcat::cache_dir,
+      destination => "${tomcat::cache_dir}/${tomcat::params::file}",
       require     => Package['wget'];
   }
 
