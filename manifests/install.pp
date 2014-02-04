@@ -2,17 +2,17 @@
 class tomcat::install (
 ) inherits tomcat {
   $requires = Package['wget']
-  $url = "http://archive.apache.org/dist/tomcat/tomcat-${tomcat::release}/v${tomcat::version}/bin/${tomcat::filename}"
+  $url = "http://archive.apache.org/dist/tomcat/tomcat-${tomcat::params::release}/v${tomcat::params::version}/bin/${tomcat::params::filename}"
   wget::fetch {
     'download apache tomcat':
-      source      => $tomcat::url,
+      source      => $url,
       destination => $tomcat::cache_dir,
       require     => Package['wget'];
   }
 
   exec { "install-${tomcat::instance}":
-    creates => "${tomcat::install_dir}/apache-tomcat-${tomcat::version}",
-    command => "/bin/tar -C '${tomcat::install_dir}' -x -f ${tomcat::cache_dir}/${tomcat::filename}",
-    require => File[$tomcat::filename]
+    creates => "${tomcat::install_dir}/apache-tomcat-${tomcat::params::version}",
+    command => "/bin/tar -C '${tomcat::install_dir}' -x -f ${tomcat::cache_dir}/${tomcat::params::filename}",
+    require => File[$tomcat::params::filename]
   }
 }
