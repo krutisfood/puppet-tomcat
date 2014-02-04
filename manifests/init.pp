@@ -12,9 +12,7 @@ class tomcat (
   #
 ) {
   include tomcat::params
-
   $instance     = $title
-  $install_dir  = "${tomcat::base_dir}/${instance}"
 
   include tomcat::install
   include tomcat::config
