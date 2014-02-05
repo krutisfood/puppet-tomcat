@@ -11,6 +11,13 @@ class tomcat::install (
       require     => Package['wget'];
   }
 
+  file { $tomcat::install_dir:
+    ensure  => directory,
+    recurse => true,
+    owner   => $user
+  }
+
+
   exec { "install-${tomcat::instance}":
     creates => "${tomcat::install_dir}/apache-tomcat-${tomcat::params::version}",
     command => "/bin/tar -C '${tomcat::install_dir}' -x -f ${tomcat::cache_dir}/${tomcat::params::filename}",
