@@ -20,5 +20,6 @@ class tomcat::install (
   exec { "install-${tomcat::instance}":
     creates => "${tomcat::install_dir}/apache-tomcat-${tomcat::params::version}",
     command => "/bin/tar -C '${tomcat::install_dir}' -x -f ${tomcat::cache_dir}/${tomcat::params::filename}",
-  } <- [Wget::Fetch[$tomcat::params::filename], File[$tomcat::install_dir]]
+    require => [Wget::Fetch[$tomcat::params::filename], File[$tomcat::install_dir]]
+  }
 }
