@@ -11,15 +11,16 @@ class tomcat::install (
       require     => Package['wget'];
   }
 
-  file {
-    "${tomcat::install_dir}/tomcat":
-      ensure => link,
-      target => "${tomcat::install_dir}/${tomcat::params::extracted_dir}";
-  }
-
   exec { "install-${tomcat::instance}":
     creates => "${tomcat::install_dir}/apache-tomcat-${tomcat::params::version}",
     command => "/bin/tar -C '${tomcat::install_dir}' -x -f ${tomcat::cache_dir}/${tomcat::params::filename}",
-    require => [Wget::Fetch[$tomcat::params::filename], File[$tomcat::install_dir]]
+    require => [Wget::Fetch[$tomcat::params::filename]]
+  }
+
+  file {
+    "${tomcat::install_dir}/tomcat":
+      ensure  => link,
+      target  => "${tomcat::install_dir}/${tomcat::params::extracted_dir}",
+      require => Exec["install-${tomcat::instance}"];
   }
 }
