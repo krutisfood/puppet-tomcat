@@ -12,10 +12,9 @@ class tomcat::install (
   }
 
   file {
-    $tomcat::install_dir:
-      ensure => directory,
-      owner  => $tomcat::user,
-      mode   => 770
+    "${tomcat::install_dir}/tomcat":
+      ensure => link,
+      target => "${tomcat::install_dir}/${tomcat::params::extracted_dir}";
   }
 
   exec { "install-${tomcat::instance}":
