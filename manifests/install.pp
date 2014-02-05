@@ -11,10 +11,11 @@ class tomcat::install (
       require     => Package['wget'];
   }
 
-  file { $tomcat::install_dir:
-    ensure  => directory,
-    recurse => true,
-    owner   => $user
+  file {
+    $tomcat::install_dir:
+      ensure => directory,
+      owner  => $tomcat::user,
+      mode   => 770
   }
 
   exec { "install-${tomcat::instance}":
