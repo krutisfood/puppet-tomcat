@@ -10,8 +10,7 @@ class tomcat (
   # enable
   # source
   #
-) {
-  include tomcat::params
+) inherits tomcat::params {
   $instance     = $title
 
   include tomcat::install
